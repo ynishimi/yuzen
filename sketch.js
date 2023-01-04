@@ -1,14 +1,19 @@
 let walker = [];
 let particle = [];
 let file;
+let flowerImages = [];
 let coordinate = [];
 let count = 0;
 let countTemp = 0;
+let coordinateFlowers = [];
+let countFlowers = 0;
+let chooseFlower = [];
 
 function preload() {
   //座標ファイルを読み込み
   file = loadStrings('coordinates.txt');
-  img = loadImage('flower_example.png');
+  flowerImages[0] = loadImage('flower_example.png');
+  flowerImages[1] = loadImage('flower_blue.png');
 }
 
 function setup() {
@@ -21,7 +26,6 @@ function setup() {
   }
   for(let i=0;i<file.length;i++)
   {
-    walker[i] = new Walker(i);
     particle[i] = new Particle(parseFloat(coordinate[i][0]), parseFloat(coordinate[i][1]));
   }
 }
@@ -29,14 +33,32 @@ function setup() {
 function draw() {
 
   //薄く背景を塗っていく(red,green,blue,alpha)
-  fill(0,5);
-  
-  rect(0,0,960,540);  
-  if (count % 90 == 0){  
-    countTemp = count;
+
+  switch (chooseFlower.slice(-1)[0]) {
+    //赤
+    case 0:
+      fill(192,50,31,5);
+      break;
+    //青
+    case 1:
+      fill(167,130,209,5);
+      break;
+  }
+  rect(0,0,960,540);
+   
+  if (count % 90 == 0){
+    // 花の種類を選ぶ
+    chooseFlower.push(floor(random() * 2));
+    console.log(chooseFlower[countFlowers]);     
+    walker[countFlowers] = new Walker(count); 
+    coordinateFlowers.push(coordinate[count]);
+    countFlowers ++;
   } 
+  for(let i = 0;i<countFlowers;i++) {
+    walker[i].draw(chooseFlower[i]);
+  }
   particle[count].draw();
-  walker[countTemp].draw();
+
   count++;
 }
 
@@ -63,12 +85,12 @@ class Walker {
     this.position = createVector(parseFloat(coordinate[numCoordinate][0]), parseFloat(coordinate[numCoordinate][1]));
   }
 
-  draw() {
+  draw(i) {
     //画像の色をかえたり薄くしたりする
     tint(255,20);
     //画像を表示(x, y, width, height)
     // rotate();
-    image(img,this.position.x, this.position.y, 100, 100);
+    image(flowerImages[i],this.position.x, this.position.y, 100, 100);
   }
 }
 
