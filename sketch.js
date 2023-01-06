@@ -25,7 +25,7 @@ function preload() {
 function setup() {
   createCanvas(canvasX, canvasY);
   frameRate(30);
-  background(0);
+  background(255); //test
   //座標をxとyに分割
   for(let i=0; i<file.length;i++) {
     coordinate[i] = file[i].split(',');
@@ -52,7 +52,7 @@ function setup() {
       maxY = coordinate[i][1];
     }
   }
-  console.log(maxY);
+  // console.log(maxY);
   for(let i=0;i<file.length;i++){
     coordinate[i][0] *=(canvasX/maxX);
     coordinate[i][1] *=(canvasY/maxY);
@@ -74,13 +74,13 @@ function draw() {
       fill(198,198,255,5);
       break;
   }
-  // fill(0,3); //test
+  fill(255,10); //test
   rect(0,0,canvasX,canvasY); //test
    
   if (count % 90 == 0){
     // 花の種類を選ぶ
     chooseFlower.push(floor(random() * 2));
-    console.log(chooseFlower[countFlowers]);     
+    // console.log(chooseFlower[countFlowers]);     
     walker[countFlowers] = new Walker(count); 
     coordinateFlowers.push(coordinate[count]);
     countFlowers ++;
@@ -88,8 +88,10 @@ function draw() {
   for(let i = 0;i<countFlowers;i++) {
     walker[i].draw(chooseFlower[i]); //test
   }
-  particle[count].createParticle();
-  // particle[count].joinParticles(particle.slice(count));
+  // particle[count].createParticle(); //test
+  // particle[count].createCircle(); //test
+
+  particle[count].joinParticles(particle.slice(count)); //test
 
   count++;
 }
@@ -109,12 +111,19 @@ class Particle {
     fill(255,100);
     circle(this.x,this.y, this.r);
   }
+  createCircle() {
+    stroke(0,50);
+    strokeWeight(0.5);
+
+    noFill();
+    circle(this.x, this.y,200);
+  }
   joinParticles(particles) {
     particles.forEach(element =>{
       let dis = dist(this.x,this.y,element.x,element.y);
-      if(dis<30) {
-        strokeWeight(0.6);
-        stroke(250,100,100);
+      if(dis >=60 && dis<100) {
+        strokeWeight(0.75);
+        stroke(250,100,0,10);
         line(this.x,this.y,element.x,element.y);
       }
     });
