@@ -110,7 +110,7 @@ class Particle {
   joinParticles(particles) {
     particles.forEach(element =>{
       let dis = dist(this.x,this.y,element.x,element.y);
-      if(dis<100) {
+      if(dis<460) {
         stroke(198,198,255,100);
         strokeWeight(3);
         line(this.x,this.y,element.x,element.y);
