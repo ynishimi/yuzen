@@ -16,6 +16,8 @@ const canvasY = 1080;
 let trX = canvasX - 100;
 let trY = canvasY - 100;
 
+let time = 180*30;
+
 function setup() {
   createCanvas(canvasX, canvasY);
   frameRate(30);
@@ -26,16 +28,14 @@ function setup() {
   vy = 1;
   flag = 1;
   timestamp = 0;
-}
 
-function draw() {
-  ellipse(x, y, 10);
-  if(flag%2){
+  for (i=0;i<time;i++){
+    if(flag%2){
       x += vx;
       if(x < width/2){vx=vx+0.5;}
       else{vx = vx - 0.5;}
     }
-  else{
+    else{
       x -= vx;
       y += vy;
       if(x > width/2){
@@ -47,27 +47,42 @@ function draw() {
           vy = vy - 0.1;
         }
     }
-  if(x < (canvasX - trX) || x > trX){ 
+    if(x < (canvasX - trX) || x > trX){ 
     flag++;
     vx = 0;
     vy = 0;
-    console.log(flag);
+    // console.log(flag);
+    }
+    x = constrain(x, canvasX - trX, trX);
+    y = constrain(y, canvasY - trY, trY);
+    coordinate.push([x,y]);
   }
-  x = constrain(x, canvasX - trX, trX);
-  y = constrain(y, canvasY - trY, trY);
+  for(let i=0;i<time;i++){
+    particle[i] = new Particle(parseFloat(coordinate[i][0]), parseFloat(coordinate[i][1]));
+  }
+}
 
-  //軌跡を消していく
-  fill(255,5);
-  rect(0,0,width,height); 
+function draw() {
+  //薄く背景を塗っていく(red,green,blue,alpha)
+  switch (chooseFlower.slice(-1)[0]) {
+    //赤
+    case 0:
+      fill(255,173,173,5);
+      break;
+    //青
+    case 1:
+      fill(198,198,255,5);
+      break;
+  }
+  fill(0,10); //test
+  rect(0,0,canvasX,canvasY); //test
    
-  // for(let i=0;i<file.length;i++)
-  // {
-  //   particle[i] = new Particle(parseFloat(coordinate[i][0]), parseFloat(coordinate[i][1]));
-  // }
-  // particle[count].createParticle();
-  // particle[count].joinParticles(particle.slice(count));
+  // particle[count].createParticle(); //test
+  particle[count].createCircle(); //test
+  particle[count].joinParticles(particle.slice(count)); //test
 
-  // count++;
+  count++;
+  if(count >= time) background(0);
 }
 
 class Particle {
@@ -85,15 +100,21 @@ class Particle {
     fill(255,100);
     circle(this.x,this.y, this.r);
   }
+  createCircle() {
+    stroke(255,150);
+    strokeWeight(1);
+
+    noFill();
+    circle(this.x, this.y,600);
+  }
   joinParticles(particles) {
     particles.forEach(element =>{
       let dis = dist(this.x,this.y,element.x,element.y);
-      if(dis<5) {
-        strokeWeight(0.6);
-        stroke(250,100,100);
+      if(dis<100) {
+        stroke(198,198,255,100);
+        strokeWeight(3);
         line(this.x,this.y,element.x,element.y);
       }
     });
   }
 }
-

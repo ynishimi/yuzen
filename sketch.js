@@ -25,7 +25,7 @@ function preload() {
 function setup() {
   createCanvas(canvasX, canvasY);
   frameRate(30);
-  background(0);
+  background(255); //test
   //座標をxとyに分割
   for(let i=0; i<file.length;i++) {
     coordinate[i] = file[i].split(',');
@@ -52,7 +52,7 @@ function setup() {
       maxY = coordinate[i][1];
     }
   }
-  console.log(maxY);
+  // console.log(maxY);
   for(let i=0;i<file.length;i++){
     coordinate[i][0] *=(canvasX/maxX);
     coordinate[i][1] *=(canvasY/maxY);
@@ -74,13 +74,18 @@ function draw() {
       fill(198,198,255,5);
       break;
   }
-  // fill(0,3); //test
+  fill(255,10); //test
   rect(0,0,canvasX,canvasY); //test
-   
+
+  // particle[count].createParticle(); //test
+  particle[count].createCircle(); //test
+  // console.log(particle.slice(count));
+  particle[count].joinParticles(particle.slice(count)); //test
+
   if (count % 90 == 0){
     // 花の種類を選ぶ
     chooseFlower.push(floor(random() * 2));
-    console.log(chooseFlower[countFlowers]);     
+    // console.log(chooseFlower[countFlowers]);     
     walker[countFlowers] = new Walker(count); 
     coordinateFlowers.push(coordinate[count]);
     countFlowers ++;
@@ -88,10 +93,9 @@ function draw() {
   for(let i = 0;i<countFlowers;i++) {
     walker[i].draw(chooseFlower[i]); //test
   }
-  particle[count].createParticle();
-  // particle[count].joinParticles(particle.slice(count));
 
   count++;
+  if(count >= file.length) background(0);
 }
 
 class Particle {
@@ -109,12 +113,30 @@ class Particle {
     fill(255,100);
     circle(this.x,this.y, this.r);
   }
+  createCircle() {
+    stroke(0,150);
+    strokeWeight(1);
+
+    noFill();
+    circle(this.x, this.y,600);
+  }
   joinParticles(particles) {
     particles.forEach(element =>{
       let dis = dist(this.x,this.y,element.x,element.y);
-      if(dis<30) {
-        strokeWeight(0.6);
-        stroke(250,100,100);
+      if(dis<100) {
+
+        switch (chooseFlower.slice(-1)[0]) {
+          //赤
+          case 0:
+            stroke(255,173,173,30);
+            break;
+          //青
+          case 1:
+            stroke(198,198,255,50);
+            break;
+        }
+        // stroke(250,100,0,10);
+        strokeWeight(3);
         line(this.x,this.y,element.x,element.y);
       }
     });
@@ -124,14 +146,22 @@ class Particle {
 class Walker {
   constructor(numCoordinate) {
     this.position = createVector(parseFloat(coordinate[numCoordinate][0]), parseFloat(coordinate[numCoordinate][1]));
+    this.angle = random(0,PI);
   }
 
   draw(i) {
     //画像の色をかえたり薄くしたりする
     tint(255,10);
     //画像を表示(x, y, width, height)
-    // rotate();
-    image(flowerImages[i],this.position.x, this.position.y, 50, 50);
+    
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(this.angle);
+    image(flowerImages[i],0, 0, 70, 70);
+    pop();
+    
+
+
   }
 }
 
