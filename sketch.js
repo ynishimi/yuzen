@@ -12,6 +12,18 @@ let minX=960;
 let minY=1080;
 let maxX = 0;
 let maxY = 0;
+
+let angle;
+let ranX = [];
+let ranY = [];
+let nowX;
+let nowY;
+//randomCircleのグネグネ度
+const stepSize = 1;
+//randomCircleの頂点の数
+const formResolution = 10;
+//randomCircleの半径
+const initRadius = 150;
 const canvasX = 960;
 const canvasY = 1080;
 
@@ -39,7 +51,6 @@ function setup() {
     }
   }
 
-
   for(let i=0;i<file.length;i++){
     coordinate[i][0] -= (minX-30);
     coordinate[i][1] -= (minY-30);
@@ -57,8 +68,18 @@ function setup() {
     coordinate[i][0] *=(canvasX/maxX);
     coordinate[i][1] *=(canvasY/maxY);
   }
+  nowX = coordinate[0][0];
+  nowY = coordinate[1][0];
+
   for(let i=0;i<file.length;i++){
     particle[i] = new Particle(parseFloat(coordinate[i][0]), parseFloat(coordinate[i][1]));
+  }
+  //randomCircleの準備
+  angle = radians(360 / formResolution)
+  for (let i = 0; i < formResolution; i++) {
+    ranX.push(cos(angle * i) * initRadius);
+    ranY.push(sin(angle * i) * initRadius);
+      // console.log(ranX[i]); 
   }
 }
 
@@ -78,7 +99,8 @@ function draw() {
   rect(0,0,canvasX,canvasY); //test
 
   // particle[count].createParticle(); //test
-  particle[count].createCircle(); //test
+  // particle[count].createCircle(); //test
+  particle[count].createRandomCircle();
   // console.log(particle.slice(count));
   particle[count].joinParticles(particle.slice(count)); //test
 
@@ -93,9 +115,13 @@ function draw() {
   for(let i = 0;i<countFlowers;i++) {
     walker[i].draw(chooseFlower[i]); //test
   }
-
+  nowX = coordinate[count][0];
+  nowY = coordinate[count][1];
   count++;
+
   if(count >= file.length) background(0);
+
+
 }
 
 class Particle {
@@ -107,6 +133,8 @@ class Particle {
     this.r = 3;
     this.xSpeed = random(-2,2);
     this.ySpeed = random(-2,2);
+    // this.diffX = nowY + 0.9 * (this.x - nowX);
+    // this.diffY = nowX + 0.9 *(this.y - nowY);
   }
   createParticle() {
     noStroke();
@@ -116,9 +144,29 @@ class Particle {
   createCircle() {
     stroke(0,150);
     strokeWeight(1);
-
     noFill();
     circle(this.x, this.y,600);
+  }
+  createRandomCircle() {
+    for (let i = 0; i < formResolution; i++) {
+      ranX[i] += random(-stepSize, stepSize);
+      ranY[i] += random(-stepSize, stepSize);
+    }
+    noFill();
+    stroke(0, 40);
+    strokeWeight(2);
+    //複雑な図形を生成
+    beginShape();
+    curveVertex(ranX[formResolution-1]+this.x, ranY[formResolution-1]+this.y);
+
+    // only these points are drawn
+    for (let i = 0; i < formResolution; i++) {
+      curveVertex(ranX[i]+this.x, ranY[i]+this.y);
+    }
+    curveVertex(ranX[0]+this.x, ranY[0]+this.y);      
+    curveVertex(ranX[1]+this.x, ranY[1]+this.y);
+    endShape();
+
   }
   joinParticles(particles) {
     particles.forEach(element =>{
