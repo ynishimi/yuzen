@@ -20,14 +20,14 @@ let ranY = [];
 let nowX;
 let nowY;
 //randomCircleのグネグネ度
-const stepSize = 1;
+const stepSize = 2;
 //画像の個数
-const imageNum = 5;
+const imageNum = 7;
 //randomCircleの頂点の数
 const formResolution = 10;
 //randomCircleの半径
 const initRadius = 400;
-const lineAlpha = 30;
+const lineAlpha = 50;
 const backAlpha = 5;
 const canvasX = 960;
 const canvasY = 1080;
@@ -38,8 +38,10 @@ function preload() {
   flowerImages[0] = loadImage('images/flower_0.png');
   flowerImages[1] = loadImage('images/flower_1.png');
   flowerImages[2] = loadImage('images/flower_2.png');
-  flowerImages[3] = loadImage('images/flower_1.png'); //wip
-  flowerImages[4] = loadImage('images/flower_2.png'); //wip
+  flowerImages[3] = loadImage('images/flower_3.png'); 
+  flowerImages[4] = loadImage('images/flower_0.png'); //wip
+  flowerImages[5] = loadImage('images/flower_1.png'); //wip
+  flowerImages[6] = loadImage('images/flower_2.png'); //wip
 }
 
 function setup() {
@@ -93,32 +95,14 @@ function setup() {
 
 function draw() {
   //薄く背景を塗っていく(red,green,blue,alpha)
-  // switch (chooseFlower.slice(-1)[0]) {
-  //   //赤
-  //   case 0:
-  //     fill(255,173,173,5);
-  //     break;
-  //   //青
-  //   case 1:
-  //     fill(198,198,255,5);
-  //     break;
-  //   case 2:
-  //     fill(198,198,255,5);
-  //     break;
-  //   case 3:
-  //     fill(198,198,255,5);
-  //     break;
-  //   case 4:
-  //     fill(198,198,255,5);
-  //     break;
-  // }
-  fill(255,5); //test
+  fill(255,1); //test
   rect(0,0,canvasX,canvasY); //test
 
   // particle[count].createParticle(); //test
   // particle[count].createCircle(); //test
 
- try {  particle[count].createRandomCircle();
+ try {
+  particle[count].createRandomCircle();
   // console.log(particle.slice(count));
   particle[count].joinParticles(particle.slice(count)); //test
 
@@ -129,18 +113,20 @@ function draw() {
     walker[countFlowers] = new Walker(count); 
     coordinateFlowers.push(coordinate[count]);
     countFlowers ++;
+    
   } 
-}catch(e){
-  console.log("error!");
-}
+  } catch(e) {
+  fill(255,10); //test
+  rect(0,0,canvasX,canvasY); //test
+  }
+
   for(let i = 0;i<countFlowers;i++) {
     walker[i].draw(chooseFlower[i]); //test
   }
   nowX = coordinate[count][0];
   nowY = coordinate[count][1];
   count++;
-
-
+  console.log(count/30);
 }
 
 class Particle {
@@ -172,28 +158,34 @@ class Particle {
       ranX[i] += random(-stepSize, stepSize);
       ranY[i] += random(-stepSize, stepSize);
     }
-    console.log(chooseFlower.slice(-1)[0]);
     switch (chooseFlower.slice(-1)[0]) {
       //赤
       case 0:
         fill(255,173,173,backAlpha);
         break;
-      //青
+      //紫
       case 1:
         fill(198,198,255,backAlpha);
         break;
       //黄
       case 2:
-        fill(198,198,255,backAlpha);
+        fill(254,245,168,backAlpha);
         break;
-      //紫
+      //黄緑
       case 3:
+        fill(166,204,73,backAlpha);
+        break;
+      //青
+      case 4:
         fill(147,112,219,backAlpha);
         break;
       //緑
-      case 4:
-        fill(166,204,73,backAlpha);
+      case 5:
+        fill(153,238,157,backAlpha);
         break;
+      //灰色
+      case 6:
+        fill(255,backAlpha);
     }
     // stroke(0, 10);
     noStroke();
@@ -218,22 +210,37 @@ class Particle {
         switch (chooseFlower.slice(-1)[0]) {
           //赤
           case 0:
-            stroke(255,173,173,lineAlpha);
+            // stroke(255,173,173,lineAlpha);
+            stroke(195,139,167,lineAlpha);
+            break;
+          //紫
+          case 1:
+            // stroke(198,198,255,lineAlpha);
+            stroke(116,113,228,lineAlpha);
+            break;
+          //黄
+          case 2:
+            // stroke(198,198,255,lineAlpha);
+            stroke(236,186,68,lineAlpha);
+            break;
+          //黄緑
+          case 3:
+            // stroke(50,205,50,lineAlpha);
+            stroke(50,183,68,lineAlpha);
             break;
           //青
-          case 1:
-            stroke(198,198,255,lineAlpha);
-            break;
-          case 2:
-            stroke(198,198,255,lineAlpha);
-            break;
-          case 3:
-            // stroke(147,112,219,lineAlpha);
-            stroke(198,198,255,lineAlpha);
-            break;
           case 4:
-            // stroke(50,205,50,lineAlpha);
-            stroke(198,198,255,lineAlpha);
+            stroke(50,90,205,lineAlpha);
+            // stroke(198,198,255,lineAlpha);
+            break;
+          //青
+          case 5:
+            stroke(50,121,64,lineAlpha);
+            break;
+          //緑
+          case 6:
+          //灰
+            stroke(100,lineAlpha);
             break;
         }
         // stroke(250,100,0,10);
