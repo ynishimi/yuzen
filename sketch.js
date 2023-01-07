@@ -66,8 +66,8 @@ function setup() {
 
 
   for(let i=0;i<file.length;i++){
-    coordinate[i][0] -= (minX-30);
-    coordinate[i][1] -= (minY-30);
+    coordinate[i][0] -= (minX);
+    coordinate[i][1] -= (minY);
   }
   for(let i=0;i<file.length;i++) {
     if(maxX < coordinate[i][0]){
@@ -79,8 +79,8 @@ function setup() {
   }
   // console.log(maxY);
   for(let i=0;i<file.length;i++){
-    coordinate[i][0] *=(canvasX/maxX);
-    coordinate[i][1] *=(canvasY/maxY);
+    coordinate[i][0] *=((canvasX+100)/maxX);
+    coordinate[i][1] *=((canvasY+100)/maxY);
   }
   nowX = coordinate[0][0];
   nowY = coordinate[1][0];
@@ -99,13 +99,13 @@ function setup() {
 
 function draw() {
   //録画
-  if (frameCount === 1) {
-    const capture = P5Capture.getInstance();
-    capture.start({
-      format: "webm",
-      duration: (coordinate.length-5),
-    });
-  }
+  // if (frameCount === 1) {
+  //   const capture = P5Capture.getInstance();
+  //   capture.start({
+  //     format: "webm",
+  //     duration: (coordinate.length-5),
+  //   });
+  // }
 
   //薄く背景を塗っていく(red,green,blue,alpha)
   fill(255,1); //test
