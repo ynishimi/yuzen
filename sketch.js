@@ -53,13 +53,17 @@ function setup() {
     coordinate[i] = file[i].split(',');
   }
   for(let i=0; i<file.length;i++) {
+    console.log(coordinate[i][0]);
     if(minX > coordinate[i][0]){
       minX = coordinate[i][0];
+      console.log(minX);
     }
     if(minY > coordinate[i][1]){
       minY = coordinate[i][1];
     }
+    
   }
+
 
   for(let i=0;i<file.length;i++){
     coordinate[i][0] -= (minX-30);
@@ -80,7 +84,7 @@ function setup() {
   }
   nowX = coordinate[0][0];
   nowY = coordinate[1][0];
-  console.log(coordinate.length);
+  // console.log(coordinate.length);
   for(let i=0;i<file.length;i++){
     particle[i] = new Particle(parseFloat(coordinate[i][0]), parseFloat(coordinate[i][1]));
   }
