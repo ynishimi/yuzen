@@ -26,12 +26,18 @@ const formResolution = 10;
 const initRadius = 400;
 const canvasX = 960;
 const canvasY = 1080;
-
+const flowerNumbers = 2;
+const backgroundAlpha = 5;
+const particleAlpha = 50;
 function preload() {
   //座標ファイルを読み込み
   file = loadStrings('coordinates.txt');
-  flowerImages[0] = loadImage('flower_example.png');
-  flowerImages[1] = loadImage('flower_blue.png');
+  
+  for (let i=0; i<flowerNumbers; i++) {
+    flowerImages[i] = loadImage('images/flower_' + i +'.png');
+  }
+  // flowerImages[0] = loadImage('flower_example.png');
+  // flowerImages[1] = loadImage('flower_blue.png');
 }
 
 function setup() {
@@ -85,16 +91,16 @@ function setup() {
 
 function draw() {
   //薄く背景を塗っていく(red,green,blue,alpha)
-  switch (chooseFlower.slice(-1)[0]) {
-    //赤
-    case 0:
-      fill(255,173,173,5);
-      break;
-    //青
-    case 1:
-      fill(198,198,255,5);
-      break;
-  }
+  // switch (chooseFlower.slice(-1)[0]) {
+  //   //赤
+  //   case 0:
+  //     fill(255,173,173,5);
+  //     break;
+  //   //青
+  //   case 1:
+  //     fill(198,198,255,5);
+  //     break;
+  // }
   // fill(255,15); //test
   // rect(0,0,canvasX,canvasY); //test
 
@@ -106,7 +112,7 @@ function draw() {
 
   if (count % 90 == 0){
     // 花の種類を選ぶ
-    chooseFlower.push(floor(random() * 2));
+    chooseFlower.push(floor(random() * countFlowers));
     // console.log(chooseFlower[countFlowers]);     
     walker[countFlowers] = new Walker(count); 
     coordinateFlowers.push(coordinate[count]);
@@ -155,12 +161,15 @@ class Particle {
     switch (chooseFlower.slice(-1)[0]) {
       //赤
       case 0:
-        fill(255,173,173,5);
+        fill(255,173,173,backgroundAlpha);
         break;
       //青
       case 1:
-        fill(198,198,255,5);
+        fill(198,198,255,backgroundAlpha);
         break;
+      //黄
+      case 2:
+        fill(255,250,205,backgroundAlpha);
     }
     // stroke(0, 10);
     noStroke();
@@ -204,18 +213,18 @@ class Particle {
 class Walker {
   constructor(numCoordinate) {
     this.position = createVector(parseFloat(coordinate[numCoordinate][0]), parseFloat(coordinate[numCoordinate][1]));
-    this.angle = random(0,PI);
+    this.angle = random(-PI/6,PI/6);
   }
 
   draw(i) {
     //画像の色をかえたり薄くしたりする
-    tint(255,10);
+    tint(255,10); 
     //画像を表示(x, y, width, height)
     
     push();
     translate(this.position.x, this.position.y);
     rotate(this.angle);
-    image(flowerImages[i],0, 0, 70, 70);
+    image(flowerImages[i],0, 0, 150, 150);
     pop();
     
 
