@@ -27,7 +27,7 @@ const imageNum = 7;
 const formResolution = 10;
 //randomCircleの半径
 const initRadius = 400;
-const lineAlpha = 50;
+const lineAlpha = 30;
 const backAlpha = 5;
 const canvasX = 960;
 const canvasY = 1080;
