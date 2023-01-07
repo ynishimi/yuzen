@@ -39,9 +39,9 @@ function preload() {
   flowerImages[1] = loadImage('images/flower_1.png');
   flowerImages[2] = loadImage('images/flower_2.png');
   flowerImages[3] = loadImage('images/flower_3.png'); 
-  flowerImages[4] = loadImage('images/flower_0.png'); //wip
-  flowerImages[5] = loadImage('images/flower_1.png'); //wip
-  flowerImages[6] = loadImage('images/flower_2.png'); //wip
+  flowerImages[4] = loadImage('images/flower_4.png');
+  flowerImages[5] = loadImage('images/flower_5.png'); //wip
+  flowerImages[6] = loadImage('images/flower_6.png'); //wip
 }
 
 function setup() {
