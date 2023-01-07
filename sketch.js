@@ -23,7 +23,7 @@ const stepSize = 1;
 //randomCircleの頂点の数
 const formResolution = 10;
 //randomCircleの半径
-const initRadius = 150;
+const initRadius = 400;
 const canvasX = 960;
 const canvasY = 1080;
 
@@ -95,8 +95,8 @@ function draw() {
       fill(198,198,255,5);
       break;
   }
-  fill(255,10); //test
-  rect(0,0,canvasX,canvasY); //test
+  // fill(255,15); //test
+  // rect(0,0,canvasX,canvasY); //test
 
   // particle[count].createParticle(); //test
   // particle[count].createCircle(); //test
@@ -152,8 +152,18 @@ class Particle {
       ranX[i] += random(-stepSize, stepSize);
       ranY[i] += random(-stepSize, stepSize);
     }
-    noFill();
-    stroke(0, 40);
+    switch (chooseFlower.slice(-1)[0]) {
+      //赤
+      case 0:
+        fill(255,173,173,5);
+        break;
+      //青
+      case 1:
+        fill(198,198,255,5);
+        break;
+    }
+    // stroke(0, 10);
+    noStroke();
     strokeWeight(2);
     //複雑な図形を生成
     beginShape();
@@ -171,12 +181,12 @@ class Particle {
   joinParticles(particles) {
     particles.forEach(element =>{
       let dis = dist(this.x,this.y,element.x,element.y);
-      if(dis<100) {
+      if(dis<70) {
 
         switch (chooseFlower.slice(-1)[0]) {
           //赤
           case 0:
-            stroke(255,173,173,30);
+            stroke(255,173,173,50);
             break;
           //青
           case 1:
