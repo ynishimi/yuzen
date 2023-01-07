@@ -98,14 +98,14 @@ function setup() {
 }
 
 function draw() {
-  // //録画
-  // if (frameCount === 1) {
-  //   const capture = P5Capture.getInstance();
-  //   capture.start({
-  //     format: "webm",
-  //     duration: coordinate.length,
-  //   });
-  // }
+  //録画
+  if (frameCount === 1) {
+    const capture = P5Capture.getInstance();
+    capture.start({
+      format: "webm",
+      duration: (coordinate.length-5),
+    });
+  }
 
   //薄く背景を塗っていく(red,green,blue,alpha)
   fill(255,1); //test
@@ -246,11 +246,11 @@ class Particle {
             stroke(50,90,205,lineAlpha);
             // stroke(198,198,255,lineAlpha);
             break;
-          //青
+          //緑
           case 5:
             stroke(50,121,64,lineAlpha);
             break;
-          //緑
+
           case 6:
           //灰
             stroke(100,lineAlpha);
