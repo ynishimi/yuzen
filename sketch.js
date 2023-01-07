@@ -80,7 +80,7 @@ function setup() {
   }
   nowX = coordinate[0][0];
   nowY = coordinate[1][0];
-
+  console.log(coordinate.length);
   for(let i=0;i<file.length;i++){
     particle[i] = new Particle(parseFloat(coordinate[i][0]), parseFloat(coordinate[i][1]));
   }
@@ -126,7 +126,7 @@ function draw() {
   nowX = coordinate[count][0];
   nowY = coordinate[count][1];
   count++;
-  console.log(count/30);
+  // console.log(count/30);
 }
 
 class Particle {
