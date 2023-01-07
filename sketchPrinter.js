@@ -14,7 +14,7 @@ let timestamp;
 const canvasX = 960;
 const canvasY = 1080;
 let trX = canvasX - 100;
-let trY = canvasY - 100;
+let trY = canvasY - 50;
 
 let time = 180*30;
 
@@ -57,8 +57,8 @@ function setup() {
     y = constrain(y, canvasY - trY, trY);
     coordinate.push([x,y]);
   }
-  for(let i=0;i<time;i++){
-    particle[i] = new Particle(parseFloat(coordinate[i][0]), parseFloat(coordinate[i][1]));
+  for(let i=0;parseFloat(coordinate[i][1])<1013;i++){
+      particle[i] = new Particle(parseFloat(coordinate[i][0]), parseFloat(coordinate[i][1]));
   }
 }
 
@@ -78,8 +78,13 @@ function draw() {
   rect(0,0,canvasX,canvasY); //test
    
   // particle[count].createParticle(); //test
-  particle[count].createCircle(); //test
-  particle[count].joinParticles(particle.slice(count)); //test
+  try{
+    particle[count].createCircle(); //test
+    particle[count].joinParticles(particle.slice(count)); //test
+  } catch (e){
+    console.log("error!");
+  }
+
 
   count++;
   if(count >= time) background(0);
