@@ -8,6 +8,7 @@ let countTemp = 0;
 let coordinateFlowers = [];
 let countFlowers = 0;
 let chooseFlower = [];
+
 let minX=960;
 let minY=1080;
 let maxX = 0;
@@ -20,24 +21,20 @@ let nowX;
 let nowY;
 //randomCircleのグネグネ度
 const stepSize = 1;
+const imageNum = 3;
 //randomCircleの頂点の数
 const formResolution = 10;
 //randomCircleの半径
 const initRadius = 400;
 const canvasX = 960;
 const canvasY = 1080;
-const flowerNumbers = 2;
-const backgroundAlpha = 5;
-const particleAlpha = 50;
+
 function preload() {
   //座標ファイルを読み込み
   file = loadStrings('coordinates.txt');
-  
-  for (let i=0; i<flowerNumbers; i++) {
-    flowerImages[i] = loadImage('images/flower_' + i +'.png');
-  }
-  // flowerImages[0] = loadImage('flower_example.png');
-  // flowerImages[1] = loadImage('flower_blue.png');
+  flowerImages[0] = loadImage('images/flower_0.png');
+  flowerImages[1] = loadImage('images/flower_1.png');
+  flowerImages[2] = loadImage('images/flower_2.png');
 }
 
 function setup() {
@@ -91,16 +88,19 @@ function setup() {
 
 function draw() {
   //薄く背景を塗っていく(red,green,blue,alpha)
-  // switch (chooseFlower.slice(-1)[0]) {
-  //   //赤
-  //   case 0:
-  //     fill(255,173,173,5);
-  //     break;
-  //   //青
-  //   case 1:
-  //     fill(198,198,255,5);
-  //     break;
-  // }
+  switch (chooseFlower.slice(-1)[0]) {
+    //赤
+    case 0:
+      fill(255,173,173,5);
+      break;
+    //青
+    case 1:
+      fill(198,198,255,5);
+      break;
+    case 2:
+      fill(198,198,255,5);
+      break;
+  }
   // fill(255,15); //test
   // rect(0,0,canvasX,canvasY); //test
 
@@ -112,7 +112,7 @@ function draw() {
 
   if (count % 90 == 0){
     // 花の種類を選ぶ
-    chooseFlower.push(floor(random() * countFlowers));
+    chooseFlower.push(floor(random() * imageNum));
     // console.log(chooseFlower[countFlowers]);     
     walker[countFlowers] = new Walker(count); 
     coordinateFlowers.push(coordinate[count]);
@@ -161,15 +161,15 @@ class Particle {
     switch (chooseFlower.slice(-1)[0]) {
       //赤
       case 0:
-        fill(255,173,173,backgroundAlpha);
+        fill(255,173,173,5);
         break;
       //青
       case 1:
-        fill(198,198,255,backgroundAlpha);
+        fill(198,198,255,5);
         break;
-      //黄
-      case 2:
-        fill(255,250,205,backgroundAlpha);
+      case 1:
+        fill(198,198,255,5);
+        break;
     }
     // stroke(0, 10);
     noStroke();
@@ -213,18 +213,18 @@ class Particle {
 class Walker {
   constructor(numCoordinate) {
     this.position = createVector(parseFloat(coordinate[numCoordinate][0]), parseFloat(coordinate[numCoordinate][1]));
-    this.angle = random(-PI/6,PI/6);
+    this.angle = random(0,PI);
   }
 
   draw(i) {
     //画像の色をかえたり薄くしたりする
-    tint(255,10); 
+    tint(255,10);
     //画像を表示(x, y, width, height)
     
     push();
     translate(this.position.x, this.position.y);
     rotate(this.angle);
-    image(flowerImages[i],0, 0, 150, 150);
+    image(flowerImages[i],0, 0, 70, 70);
     pop();
     
 
