@@ -27,7 +27,7 @@ const imageNum = 5;
 const formResolution = 10;
 //randomCircleの半径
 const initRadius = 400;
-const lineAlpha = 50;
+const lineAlpha = 30;
 const backAlpha = 5;
 const canvasX = 960;
 const canvasY = 1080;
@@ -112,12 +112,13 @@ function draw() {
   //     fill(198,198,255,5);
   //     break;
   // }
-  // fill(255,15); //test
-  // rect(0,0,canvasX,canvasY); //test
+  fill(255,5); //test
+  rect(0,0,canvasX,canvasY); //test
 
   // particle[count].createParticle(); //test
   // particle[count].createCircle(); //test
-  particle[count].createRandomCircle();
+
+ try {  particle[count].createRandomCircle();
   // console.log(particle.slice(count));
   particle[count].joinParticles(particle.slice(count)); //test
 
@@ -129,14 +130,15 @@ function draw() {
     coordinateFlowers.push(coordinate[count]);
     countFlowers ++;
   } 
+}catch(e){
+  console.log("error!");
+}
   for(let i = 0;i<countFlowers;i++) {
     walker[i].draw(chooseFlower[i]); //test
   }
   nowX = coordinate[count][0];
   nowY = coordinate[count][1];
   count++;
-
-  if(count >= file.length) background(0);
 
 
 }
@@ -170,14 +172,15 @@ class Particle {
       ranX[i] += random(-stepSize, stepSize);
       ranY[i] += random(-stepSize, stepSize);
     }
+    console.log(chooseFlower.slice(-1)[0]);
     switch (chooseFlower.slice(-1)[0]) {
       //赤
       case 0:
-        fill(212,173,194,backAlpha);
+        fill(255,173,173,backAlpha);
         break;
       //青
       case 1:
-        fill(182,181,212,backAlpha);
+        fill(198,198,255,backAlpha);
         break;
       //黄
       case 2:
@@ -189,7 +192,7 @@ class Particle {
         break;
       //緑
       case 4:
-        fill(144,238,144,backAlpha);
+        fill(166,204,73,backAlpha);
         break;
     }
     // stroke(0, 10);
@@ -215,26 +218,26 @@ class Particle {
         switch (chooseFlower.slice(-1)[0]) {
           //赤
           case 0:
-            stroke(195,139,167,lineAlpha);
+            stroke(255,173,173,lineAlpha);
             break;
           //青
           case 1:
-            stroke(116,113,228,lineAlpha);
+            stroke(198,198,255,lineAlpha);
             break;
-          //黄
           case 2:
-            stroke(236,193,114,lineAlpha);
+            stroke(198,198,255,lineAlpha);
             break;
           case 3:
-            stroke(147,112,219,lineAlpha);
+            // stroke(147,112,219,lineAlpha);
+            stroke(198,198,255,lineAlpha);
             break;
-          //緑
           case 4:
-            stroke(50,205,50,lineAlpha);
+            // stroke(50,205,50,lineAlpha);
+            stroke(198,198,255,lineAlpha);
             break;
         }
         // stroke(250,100,0,10);
-        strokeWeight(3);
+        strokeWeight(1);
         line(this.x,this.y,element.x,element.y);
       }
     });
