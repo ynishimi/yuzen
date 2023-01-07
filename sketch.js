@@ -8,6 +8,7 @@ let countTemp = 0;
 let coordinateFlowers = [];
 let countFlowers = 0;
 let chooseFlower = [];
+
 let minX=960;
 let minY=1080;
 let maxX = 0;
@@ -20,6 +21,8 @@ let nowX;
 let nowY;
 //randomCircleのグネグネ度
 const stepSize = 1;
+//画像の個数
+const imageNum = 5;
 //randomCircleの頂点の数
 const formResolution = 10;
 //randomCircleの半径
@@ -30,8 +33,11 @@ const canvasY = 1080;
 function preload() {
   //座標ファイルを読み込み
   file = loadStrings('coordinates.txt');
-  flowerImages[0] = loadImage('flower_example.png');
-  flowerImages[1] = loadImage('flower_blue.png');
+  flowerImages[0] = loadImage('images/flower_0.png');
+  flowerImages[1] = loadImage('images/flower_1.png');
+  flowerImages[2] = loadImage('images/flower_2.png');
+  flowerImages[3] = loadImage('images/flower_1.png'); //wip
+  flowerImages[4] = loadImage('images/flower_2.png'); //wip
 }
 
 function setup() {
@@ -94,6 +100,15 @@ function draw() {
     case 1:
       fill(198,198,255,5);
       break;
+    case 2:
+      fill(198,198,255,5);
+      break;
+    case 3:
+      fill(198,198,255,5);
+      break;
+    case 4:
+      fill(198,198,255,5);
+      break;
   }
   // fill(255,15); //test
   // rect(0,0,canvasX,canvasY); //test
@@ -106,7 +121,7 @@ function draw() {
 
   if (count % 90 == 0){
     // 花の種類を選ぶ
-    chooseFlower.push(floor(random() * 2));
+    chooseFlower.push(floor(random() * imageNum));
     // console.log(chooseFlower[countFlowers]);     
     walker[countFlowers] = new Walker(count); 
     coordinateFlowers.push(coordinate[count]);
@@ -147,6 +162,7 @@ class Particle {
     noFill();
     circle(this.x, this.y,600);
   }
+  //背景を薄く染めていく
   createRandomCircle() {
     for (let i = 0; i < formResolution; i++) {
       ranX[i] += random(-stepSize, stepSize);
@@ -160,6 +176,18 @@ class Particle {
       //青
       case 1:
         fill(198,198,255,5);
+        break;
+      //黄
+      case 2:
+        fill(198,198,255,5);
+        break;
+      //紫
+      case 3:
+        fill(147,112,219,5);
+        break;
+      //緑
+      case 4:
+        fill(144,238,144,5);
         break;
     }
     // stroke(0, 10);
@@ -192,6 +220,15 @@ class Particle {
           case 1:
             stroke(198,198,255,50);
             break;
+          case 2:
+            stroke(198,198,255,50);
+            break;
+          case 3:
+            stroke(147,112,219,50);
+            break;
+          case 4:
+            stroke(50,205,50,50);
+            break;
         }
         // stroke(250,100,0,10);
         strokeWeight(3);
@@ -204,7 +241,7 @@ class Particle {
 class Walker {
   constructor(numCoordinate) {
     this.position = createVector(parseFloat(coordinate[numCoordinate][0]), parseFloat(coordinate[numCoordinate][1]));
-    this.angle = random(0,PI);
+    this.angle = random(-PI/6,PI/6);
   }
 
   draw(i) {
