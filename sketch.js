@@ -94,6 +94,15 @@ function setup() {
 }
 
 function draw() {
+  // //録画
+  // if (frameCount === 1) {
+  //   const capture = P5Capture.getInstance();
+  //   capture.start({
+  //     format: "webm",
+  //     duration: coordinate.length,
+  //   });
+  // }
+
   //薄く背景を塗っていく(red,green,blue,alpha)
   fill(255,1); //test
   rect(0,0,canvasX,canvasY); //test
